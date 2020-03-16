@@ -7,7 +7,7 @@ public class FabAutos {
      */
     public static void main(String[] args) {
         Administrador pr = new Administrador();
-        pr.ejecutar(true);
+        pr.ejecutar();
     }
     
 }

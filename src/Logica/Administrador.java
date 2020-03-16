@@ -7,6 +7,7 @@ public class Administrador {
     
     private Random random = new Random();        //Variable que define un random.
     private int id=1;                            //ID autoincrementable para los carros.
+    private int contador=0;
     
     private Cola cola1 = new Cola();             //Inicializa Cola de prioridad de nivel 1.
     private Cola cola2 = new Cola();             //Inicializa Cola de prioridad de nivel 2.
@@ -23,34 +24,23 @@ public class Administrador {
     }
     
     //Realiza la ejecucion:
-    public void ejecutar(boolean x)
+    public void ejecutar()
     {
+        //Crea un auto nuevo inicialmente:
+        carro = new Carro(id,(random.nextInt(3)+1),0);
+        System.out.println("Se ha creado el Carro "+carro.getId());
+
+        //Incrementa ID de auto:
+        id++;
+
+        //Se encola el carro creado en una de las colas dependiendo de su prioridad 
+        encolar();
         
         do
         {
-            //Comprueba para crear un auto al inicio
-            if(x)
-            {
-                //Crea un auto nuevo inicialmente:
-                carro = new Carro(id,(random.nextInt(3)+1),0);
-                System.out.println("Se ha creado el Carro "+carro.getId());
-                
-                //Incrementa ID de auto:
-                id++;
-                
-                //Se encola el carro creado en una de las colas dependiendo de su prioridad 
-                encolar();
-                
-                //Se pone la variable "x" en falso, para no entrar mas en la condicion
-                x=false;
-                
-            }
-            else
-            {
-                
             //Entra en operacion cuando hayan pasado dos ciclos de revision:
-            ///if(mec.getCont_revisados()%2==0)
-            //{
+            if(contador%2==1)
+            {
                 //Probabilidad de 60% de crear nuevo carro:
                 if(random.nextFloat() <= 0.6)
                 {
@@ -61,8 +51,7 @@ public class Administrador {
                     
                     encolar();
                 }
-            //}     
-            }
+            }  
             
             //Se selecciona el carro de una de las colas y se lleva a revision:
             planificador();
@@ -74,9 +63,10 @@ public class Administrador {
             }
             
             System.out.println("\n-----\n");
+            
+            contador++;
                                    
-        } 
-        while(true);
+        }while(true);
     }
     
     //Encola el carro creado en una de las colas de prioridad:
@@ -170,6 +160,9 @@ public class Administrador {
         {
             //Inserta el primer auto de cola de prioridad 2 en la de prioridad 1:
             case 1:
+                //Cambia la prioridad
+                cola2.getNodos().get(0).setPrioridad(1);
+                //Cambia de cola
                 cola1.insertar(cola2.getNodos().get(0));
                 cola2.eliminar(cola2.getNodos().get(0));
                 System.out.print("\nCola 1: ");
@@ -180,6 +173,7 @@ public class Administrador {
                 break;
             //Inserta el primer auto de cola de prioridad 3 en la de prioridad 2:
             case 2:
+                cola3.getNodos().get(0).setPrioridad(2);
                 cola2.insertar(cola3.getNodos().get(0));
                 cola3.eliminar(cola3.getNodos().get(0));
                 System.out.print("\nCola 2: ");

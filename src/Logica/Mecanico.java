@@ -9,8 +9,6 @@ public class Mecanico {
     
     private int tiempoEspera = 5000;        //Tiempo que tarda en hacer la revision (5 segundos expresados en milisegundos).
     private Random random = new Random();   //Variable que define un random.
-    private int cont_revisados=0;           //Variable que determina la cantidad total de autos revisados.
-    private int contador;                   //Variable que determina la cantidad de autos diferentes al actual realizados.
     
     public Mecanico() { }
     
@@ -48,28 +46,11 @@ public class Mecanico {
                 reparaciones.insertar(carro);
                 System.out.println("\nEl carro "+carro.getId()+" fue insertado en la cola de Reparaciones.");
             }
-            
-            //Contador global de autos que han pasado por el mecanico:
-            cont_revisados++;
-
         }
         catch(InterruptedException ex)
         {
             Logger.getLogger(Mecanico.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
-
-    //Getter's & Setter's:
-    
-    public int getCont_revisados() 
-    {
-        return cont_revisados;
-    }
-
-    public void setCont_revisados(int cont_revisados) 
-    {
-        this.cont_revisados = cont_revisados;
-    }
-    
+    }   
 }
