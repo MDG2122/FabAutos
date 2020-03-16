@@ -1,19 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
+import Logica.*;
 
 
 public class Interfaz extends javax.swing.JFrame {
 
+    Administrador admin = new Administrador();
+    boolean flag;
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
+    }
+    
+    public void activar_botones()
+    {
+        flag=true;
+        admin.ejecutar();
     }
 
     /**
@@ -214,6 +218,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        activar_botones();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
