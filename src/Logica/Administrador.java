@@ -6,7 +6,7 @@ public class Administrador {
     //Variables:
     
     private Random random = new Random();        //Variable que define un random.
-    private int id=0;                            //ID autoincrementable para los carros.
+    private int id=1;                            //ID autoincrementable para los carros.
     
     private Cola cola1 = new Cola();             //Inicializa Cola de prioridad de nivel 1.
     private Cola cola2 = new Cola();             //Inicializa Cola de prioridad de nivel 2.
@@ -28,29 +28,52 @@ public class Administrador {
         
         do
         {
-            //Crea un auto nuevo inicialmente:
+            //Comprueba para crear un auto al inicio
             if(x)
             {
+                //Crea un auto nuevo inicialmente:
                 carro = new Carro(id,(random.nextInt(3)+1),0);
                 System.out.println("Se ha creado el Carro "+carro.getId());
+                
+                //Incrementa ID de auto:
+                id++;
+                
+                //Se encola el carro creado en una de las colas dependiendo de su prioridad 
+                encolar();
+                
+                //Se pone la variable "x" en falso, para no entrar mas en la condicion
                 x=false;
+                
             }
             else
             {
-                agregarNuevo();
+                
+            //Entra en operacion cuando hayan pasado dos ciclos de revision:
+            ///if(mec.getCont_revisados()%2==0)
+            //{
+                //Probabilidad de 60% de crear nuevo carro:
+                if(random.nextFloat() <= 0.6)
+                {
+                    carro = new Carro(id,(random.nextInt(3)+1),0);
+                    System.out.println("\nSe ha creado el Carro "+carro.getId());
+                    
+                    id++;
+                    
+                    encolar();
+                }
+            //}     
             }
             
-            //Se encola el carro creado en una de las colas dependiendo de su prioridad 
-            encolar();
-            
-            //Se selecciona la cola a ser escogida y se lleva a revision:
+            //Se selecciona el carro de una de las colas y se lleva a revision:
             planificador();
             
-            //Incrementa ID de auto:
-            id++;
+            //Actualiza la cola de reparacion (si no esta vacia) cada vez que se actualizan las demas:
+            if(!colaReparacion.getNodos().isEmpty())
+            {
+                actualizaReparaciones();
+            }
             
-              
-            System.out.println("\n------------------------\n");
+            System.out.println("\n-----\n");
                                    
         } 
         while(true);
@@ -112,9 +135,8 @@ public class Administrador {
             aumentarContador(cola3);
 
         }
-        
         //Si cola es de prioridad 2, pasa solo si no hay elementos en cola 1:
-        if(cola1.getNodos().isEmpty() && !cola2.getNodos().isEmpty())
+        else if(cola1.getNodos().isEmpty() && !cola2.getNodos().isEmpty())
         {
             carro.setContador(0);
             
@@ -123,9 +145,8 @@ public class Administrador {
             aumentarContador(cola2);
             aumentarContador(cola3);
         }
-
         //Si cola es de prioridad 3, pasa solo si no hay elementos en cola 1 y 2:
-        if(getCola1().getNodos().isEmpty() && getCola2().getNodos().isEmpty() && !getCola3().getNodos().isEmpty())
+        else if(getCola1().getNodos().isEmpty() && getCola2().getNodos().isEmpty() && !getCola3().getNodos().isEmpty())
         {
             carro.setContador(0);
 
@@ -147,35 +168,32 @@ public class Administrador {
         //Actualiza las colas:
         switch (prioridad) 
         {
-            //Inserta los autos de cola de prioridad 2 en la de prioridad 1:
+            //Inserta el primer auto de cola de prioridad 2 en la de prioridad 1:
             case 1:
                 cola1.insertar(cola2.getNodos().get(0));
+                cola2.eliminar(cola2.getNodos().get(0));
                 System.out.print("\nCola 1: ");
                 for(int i=0; i<cola1.getNodos().size(); i++)
                 {
-                 System.out.print("[Carro "+cola1.getNodos().get(i).getId()+", prioridad "+cola1.getNodos().get(i).getPrioridad()+", contador: "+cola1.getNodos().get(i).getContador()+"]; ");   
+                 System.out.print("\n[Carro "+cola1.getNodos().get(i).getId()+", prioridad "+cola1.getNodos().get(i).getPrioridad()+", contador: "+cola1.getNodos().get(i).getContador()+"]; ");   
                 }
                 break;
-            //Inserta los autos de cola de prioridad 3 en la de prioridad 2:
+            //Inserta el primer auto de cola de prioridad 3 en la de prioridad 2:
             case 2:
                 cola2.insertar(cola3.getNodos().get(0));
+                cola3.eliminar(cola3.getNodos().get(0));
                 System.out.print("\nCola 2: ");
                 for(int i=0; i<cola2.getNodos().size(); i++)
                 {
-                 System.out.print("[Carro "+cola2.getNodos().get(i).getId()+", prioridad "+cola2.getNodos().get(i).getPrioridad()+", contador: "+cola2.getNodos().get(i).getContador()+"]; ");   
+                 System.out.print("\n[Carro "+cola2.getNodos().get(i).getId()+", prioridad "+cola2.getNodos().get(i).getPrioridad()+", contador: "+cola2.getNodos().get(i).getContador()+"]; ");   
                 }
                 break;
             //Evita que modifique la prioridad de un auto de prioridad 1:    
             default:
-                System.out.println("\nNo es posible modificar la prioridad del carro "+carro.getId());
+                System.out.println("\nNo es posible modificar la prioridad, se encuentra en la mas alta.");
                 break;
         }
-
-        //Actualiza la cola de reparacion cada vez que se actualizan las demas:
-        if(!colaReparacion.getNodos().isEmpty())
-        {
-            actualizaReparaciones();
-        }                    
+               
     }
     
     //Realiza las reparaciones/mejoras:
@@ -206,27 +224,17 @@ public class Administrador {
        
     }
     
-    //Agrega un nuevo auto a una de las colas de prioridades:
-    public void agregarNuevo()
-    {        
-        //Entra en operacion cuando hayan pasado dos ciclos de revision:
-        ///if(mec.getCont_revisados()%2==0)
-        //{
-            //Crea un carro
-            carro = new Carro(id,(random.nextInt(3)+1),0);
-            
-            System.out.println("\nSe ha creado el Carro "+carro.getId());
-        //}        
-    }
-    
+    //Aumenta los contadores asociados a cada auto de la cola
     public void aumentarContador(Cola cola)
     {
+        //Recorre la cola seleccionada:
         for(int i=0; i<cola.getNodos().size(); i++)
         {
             int j=cola.getNodos().get(i).getContador();
             cola.getNodos().get(i).setContador(j+1);
             //System.out.println("\n"+cola.getNodos().get(i).getContador());
             
+            //Reinicializa el contador y actualiza la cola:
             if(cola.getNodos().get(i).getContador()==10)
             {
                 cola.getNodos().get(i).setContador(0);
