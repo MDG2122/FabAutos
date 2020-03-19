@@ -1,8 +1,10 @@
 package Logica;
 
 import java.util.Random;
+import javax.swing.JTextArea;   //Para mostrar todos los detalles
+import javax.swing.SwingWorker;
 
-public class Administrador {
+public class Administrador extends SwingWorker{
     //Variables:
     
     private Random random = new Random();        //Variable que define un random.
@@ -16,12 +18,21 @@ public class Administrador {
     
     private Carro carro;                         //Se crea un carro inicialmente.
     private Mecanico mec = new Mecanico();       //Inicializa un mecanico.
+    
+    public JTextArea DatosCola1;
+    public JTextArea DatosCola2;
+    public JTextArea DatosCola3;
+    public JTextArea DatosReparacion;
 
     //Constructor:
-    public Administrador() 
+    public Administrador(JTextArea DatosCola1, JTextArea DatosCola2, JTextArea DatosCola3, JTextArea DatosReparacion) 
     {
-
+        this.DatosCola1=DatosCola1;
+        this.DatosCola2=DatosCola2;
+        this.DatosCola3=DatosCola3;
+        this.DatosReparacion=DatosReparacion;
     }
+    
     
     //Realiza la ejecucion:
     public void ejecutar()
@@ -50,16 +61,19 @@ public class Administrador {
                     id++;
                     
                     encolar();
+                    
+                    imprimirColas();
                 }
             }  
             
-            //Se selecciona el carro de una de las colas y se lleva a revision:
+            //Se selecciona el carro de una de las colas, se lleva a revision y posteriormente realiza las actualizaciones en las colas:
             planificador();
             
             //Actualiza la cola de reparacion (si no esta vacia) cada vez que se actualizan las demas:
             if(!colaReparacion.getNodos().isEmpty())
             {
                 actualizaReparaciones();
+                imprimirColas();
             }
             
             System.out.println("\n-----\n");
@@ -88,6 +102,7 @@ public class Administrador {
             //Prioridad nivel 2:
             case 2:
                 cola2.insertar(carro);
+                
                 System.out.print("\nCola 2: ");
                 for(int i=0; i<cola2.getNodos().size(); i++)
                 {
@@ -98,10 +113,11 @@ public class Administrador {
             //Prioridad nivel 3:
             case 3:
                 cola3.insertar(carro);
+                               
                 System.out.print("\nCola 3: ");
                 for(int i=0; i<cola3.getNodos().size(); i++)
                 {
-                 System.out.print("[Carro "+cola3.getNodos().get(i).getId()+", prioridad "+cola3.getNodos().get(i).getPrioridad()+", contador: "+cola3.getNodos().get(i).getContador()+"]; ");   
+                    System.out.print("[Carro "+cola3.getNodos().get(i).getId()+", prioridad "+cola3.getNodos().get(i).getPrioridad()+", contador: "+cola3.getNodos().get(i).getContador()+"]; ");   
                 }
                 break; 
         }        
@@ -117,7 +133,9 @@ public class Administrador {
             carro.setContador(0);
             
             //El mecanico revisa el auto:
-            mec.revisar(cola1.getNodos().get(0), cola1, colaReparacion);
+            mec.revisar(cola1.getNodos().get(0), cola1, colaReparacion, DatosCola1);
+            
+            imprimirColas();
             
             //Aumenta los contadores de cada carro que no fue seleccionado para revision en cada cola
             aumentarContador(cola1);
@@ -130,7 +148,9 @@ public class Administrador {
         {
             carro.setContador(0);
             
-            mec.revisar(cola2.getNodos().get(0), cola2, colaReparacion);
+            mec.revisar(cola2.getNodos().get(0), cola2, colaReparacion, DatosCola2);
+            
+            imprimirColas();
             
             aumentarContador(cola2);
             aumentarContador(cola3);
@@ -140,7 +160,9 @@ public class Administrador {
         {
             carro.setContador(0);
 
-            mec.revisar(cola3.getNodos().get(0), cola3, colaReparacion);
+            mec.revisar(cola3.getNodos().get(0), cola3, colaReparacion, DatosCola3);
+            
+            imprimirColas();
             
             aumentarContador(cola3);      
         }
@@ -165,9 +187,11 @@ public class Administrador {
                 //Cambia de cola
                 cola1.insertar(cola2.getNodos().get(0));
                 cola2.eliminar(cola2.getNodos().get(0));
+                //DatosCola1.selectAll();
+                //DatosCola1.replaceSelection("");
                 System.out.print("\nCola 1: ");
                 for(int i=0; i<cola1.getNodos().size(); i++)
-                {
+                {   
                  System.out.print("\n[Carro "+cola1.getNodos().get(i).getId()+", prioridad "+cola1.getNodos().get(i).getPrioridad()+", contador: "+cola1.getNodos().get(i).getContador()+"]; ");   
                 }
                 break;
@@ -179,7 +203,7 @@ public class Administrador {
                 System.out.print("\nCola 2: ");
                 for(int i=0; i<cola2.getNodos().size(); i++)
                 {
-                 System.out.print("\n[Carro "+cola2.getNodos().get(i).getId()+", prioridad "+cola2.getNodos().get(i).getPrioridad()+", contador: "+cola2.getNodos().get(i).getContador()+"]; ");   
+                 System.out.print("\n[Carro "+cola2.getNodos().get(i).getId()+", prioridad "+cola2.getNodos().get(i).getPrioridad()+", contador: "+cola2.getNodos().get(i).getContador()+"]; ");
                 }
                 break;
             //Evita que modifique la prioridad de un auto de prioridad 1:    
@@ -187,6 +211,8 @@ public class Administrador {
                 System.out.println("\nNo es posible modificar la prioridad, se encuentra en la mas alta.");
                 break;
         }
+        
+        imprimirColas();
                
     }
     
@@ -226,7 +252,8 @@ public class Administrador {
         {
             int j=cola.getNodos().get(i).getContador();
             cola.getNodos().get(i).setContador(j+1);
-            //System.out.println("\n"+cola.getNodos().get(i).getContador());
+            
+            imprimirColas();
             
             //Reinicializa el contador y actualiza la cola:
             if(cola.getNodos().get(i).getContador()==10)
@@ -235,8 +262,58 @@ public class Administrador {
                 actualizarColas(cola.getNodos().get(i).getPrioridad());
             }
         }
-
-
+    }
+    
+    public void imprimirCola1()
+    {
+        DatosCola1.selectAll();
+        DatosCola1.replaceSelection("");        
+                
+        for(int i=0; i<cola1.getNodos().size(); i++)
+        {
+         DatosCola1.append("Carro "+cola1.getNodos().get(i).getId()+", contador: "+cola1.getNodos().get(i).getContador()+"\n");   
+        }  
+    }
+    
+    public void imprimirCola2()
+    {
+        DatosCola2.selectAll();
+        DatosCola2.replaceSelection("");
+        
+        for(int i=0; i<cola2.getNodos().size(); i++)
+        {
+         DatosCola2.append("Carro "+cola2.getNodos().get(i).getId()+", contador: "+cola2.getNodos().get(i).getContador()+"\n");   
+        }  
+    }
+    
+    public void imprimirCola3()
+    {
+        DatosCola3.selectAll();
+        DatosCola3.replaceSelection("");
+        
+        for(int i=0; i<cola3.getNodos().size(); i++)
+        {
+         DatosCola3.append("Carro "+cola3.getNodos().get(i).getId()+", contador: "+cola3.getNodos().get(i).getContador()+"\n");   
+        }  
+    }
+    
+    public void imprimirColaReparacion()
+    {
+        DatosReparacion.selectAll();
+        DatosReparacion.replaceSelection("");
+        
+        for(int i=0; i<colaReparacion.getNodos().size(); i++)
+        {
+         DatosReparacion.append("Carro "+colaReparacion.getNodos().get(i).getId()+", contador: "+colaReparacion.getNodos().get(i).getContador()+"\n");   
+        }  
+    }
+    
+    public void imprimirColas()
+    {
+        imprimirCola1();
+        imprimirCola2();
+        imprimirCola3();
+        imprimirColaReparacion();
     }
  
     //Getter's & Setter's:
@@ -279,6 +356,12 @@ public class Administrador {
 
     public void setCarro(Carro carro) {
         this.carro = carro;
+    }
+
+    @Override
+    protected Object doInBackground() throws Exception {
+        ejecutar();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

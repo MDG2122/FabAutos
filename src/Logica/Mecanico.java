@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.lang.Thread.sleep;
 import java.util.Random;
+import javax.swing.JTextArea;
 
 public class Mecanico {
     
@@ -13,7 +14,7 @@ public class Mecanico {
     public Mecanico() { }
     
     //Hace una revision al carro:
-    public void revisar(Carro carro, Cola cola, Cola reparaciones) {
+    public void revisar(Carro carro, Cola cola, Cola reparaciones,JTextArea Datos) {
         
         //Variable que define una probabilidad
         float probabilidad = random.nextFloat();
@@ -28,7 +29,7 @@ public class Mecanico {
             
             //Sale al mercado (probabilidad de 30%):
             if (probabilidad <= 0.3) 
-            {
+            {   
                 System.out.println("\nEl carro "+carro.getId()+" ha salido al mercado.");
             }
             //Se necesita mas tiempo de revision (probabilidad de 50%):
