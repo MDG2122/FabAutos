@@ -27,6 +27,9 @@ public class Mecanico {
             //Realiza revision por 5 segundos:
             sleep(tiempoEspera);
             
+            //Carro seleccionado para revision, se restablece el contador
+            carro.setContador(0);
+            
             //Sale al mercado (probabilidad de 30%):
             if (probabilidad <= 0.3) 
             {   

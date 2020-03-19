@@ -1,6 +1,9 @@
 package Logica;
 
+import static java.lang.Thread.sleep;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextArea;   //Para mostrar todos los detalles
 import javax.swing.SwingWorker;
 
@@ -47,6 +50,9 @@ public class Administrador extends SwingWorker{
         //Se encola el carro creado en una de las colas dependiendo de su prioridad 
         encolar();
         
+        //Imprime las colas por pantalla
+        imprimirColas();
+        
         do
         {
             //Entra en operacion cuando hayan pasado dos ciclos de revision:
@@ -73,7 +79,10 @@ public class Administrador extends SwingWorker{
             if(!colaReparacion.getNodos().isEmpty())
             {
                 actualizaReparaciones();
+               
                 imprimirColas();
+                
+                aumentarContadorR(colaReparacion);
             }
             
             System.out.println("\n-----\n");
@@ -128,10 +137,7 @@ public class Administrador extends SwingWorker{
     {
         //Si la cola es de prioridad 1, los autos en su interior pasan inmediatamente a revision:
         if(!cola1.getNodos().isEmpty())
-        {
-            //Carro seleccionado para revision, se restablece el contador
-            carro.setContador(0);
-            
+        {   
             //El mecanico revisa el auto:
             mec.revisar(cola1.getNodos().get(0), cola1, colaReparacion, DatosCola1);
             
@@ -146,7 +152,6 @@ public class Administrador extends SwingWorker{
         //Si cola es de prioridad 2, pasa solo si no hay elementos en cola 1:
         else if(cola1.getNodos().isEmpty() && !cola2.getNodos().isEmpty())
         {
-            carro.setContador(0);
             
             mec.revisar(cola2.getNodos().get(0), cola2, colaReparacion, DatosCola2);
             
@@ -158,13 +163,12 @@ public class Administrador extends SwingWorker{
         //Si cola es de prioridad 3, pasa solo si no hay elementos en cola 1 y 2:
         else if(getCola1().getNodos().isEmpty() && getCola2().getNodos().isEmpty() && !getCola3().getNodos().isEmpty())
         {
-            carro.setContador(0);
 
             mec.revisar(cola3.getNodos().get(0), cola3, colaReparacion, DatosCola3);
             
             imprimirColas();
             
-            aumentarContador(cola3);      
+            aumentarContador(cola3);
         }
         
     }
@@ -219,28 +223,40 @@ public class Administrador extends SwingWorker{
     //Realiza las reparaciones/mejoras:
     public void actualizaReparaciones()
     {
-        //Guarda en una variable auxiliar el valor del carro actual
-        Carro aux = carro;
-        //Selecciona el primer carro de la cola de reparaciones/mejoras
-        carro = colaReparacion.getNodos().get(0);
-        //Elimina el carro de la cola
-        colaReparacion.eliminar(carro);
         
-        //Si la probabilidad es del 60% sale de la cola general y vuelve a su cola original:
-        if (random.nextFloat() <= 0.6) 
-        {
-            System.out.println("\nCarro "+carro.getId()+" ha salido de la cola de Reparaciones y mejoras.");
+        try
+        {   
+            //Tiempo de espera solo para motivos de ver como se actualiza la cola de reparaciones:
+            sleep(1000);
             
-            encolar();
+            //Guarda en una variable auxiliar el valor del carro actual
+            Carro aux = carro;
+            //Selecciona el primer carro de la cola de reparaciones/mejoras
+            carro = colaReparacion.getNodos().get(0);
+            //Elimina el carro de la cola
+            colaReparacion.eliminar(carro);
+
+            //Si la probabilidad es del 60% sale de la cola general y vuelve a su cola original:
+            if (random.nextFloat() <= 0.6) 
+            {
+                System.out.println("\nCarro "+carro.getId()+" ha salido de la cola de Reparaciones y mejoras.");
+
+                encolar();
+            }
+            else
+            {
+                //Vuelve a insertar el carro en la cola de reparaciones hasta que vuelvan a ser actualizadas las colas:
+                colaReparacion.insertar(carro);
+            }
+
+            //Se restablece el valor original del carro actual:
+            carro = aux;
+          
         }
-        else
+        catch(InterruptedException ex)
         {
-            //Vuelve a insertar el carro en la cola de reparaciones hasta que vuelvan a ser actualizadas las colas:
-            colaReparacion.insertar(carro);
+            Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //Se restablece el valor original del carro actual:
-        carro = aux;
        
     }
     
@@ -249,7 +265,7 @@ public class Administrador extends SwingWorker{
     {
         //Recorre la cola seleccionada:
         for(int i=0; i<cola.getNodos().size(); i++)
-        {
+        {   
             int j=cola.getNodos().get(i).getContador();
             cola.getNodos().get(i).setContador(j+1);
             
@@ -261,6 +277,18 @@ public class Administrador extends SwingWorker{
                 cola.getNodos().get(i).setContador(0);
                 actualizarColas(cola.getNodos().get(i).getPrioridad());
             }
+        }
+    }
+    
+    //Aumenta especificamente el contador de la cola de Reparaciones
+    public void aumentarContadorR(Cola cola)
+    {
+        for(int i=0; i<cola.getNodos().size(); i++)
+        {   
+            int j=cola.getNodos().get(i).getContador();
+            cola.getNodos().get(i).setContador(j+1);
+            
+            imprimirColas();
         }
     }
     
