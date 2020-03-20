@@ -82,8 +82,7 @@ public class Administrador extends SwingWorker{
       
             //Aumenta el contador:
             contador++;
-            
-                                   
+                        
         }while(true);
     }
     
@@ -227,9 +226,7 @@ public class Administrador extends SwingWorker{
                 cola3.eliminar(cola3.getNodos().get(0));
             break;
         }
-        
-        imprimirColas();
-               
+        imprimirColas();        
     }
     
     //Realiza las reparaciones/mejoras:
@@ -292,6 +289,8 @@ public class Administrador extends SwingWorker{
         }
     }
 
+    //Metodos para imprimir las colas por pantalla:
+    
     public void imprimirCola1()
     {
         DatosCola1.selectAll();
@@ -299,7 +298,7 @@ public class Administrador extends SwingWorker{
                 
         for(int i=0; i<cola1.getNodos().size(); i++)
         {
-         DatosCola1.append(" Carro "+cola1.getNodos().get(i).getId()+", contador: "+cola1.getNodos().get(i).getContador()+"\n");   
+            DatosCola1.append(" Carro "+cola1.getNodos().get(i).getId()+", contador: "+cola1.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -310,7 +309,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<cola2.getNodos().size(); i++)
         {
-         DatosCola2.append(" Carro "+cola2.getNodos().get(i).getId()+", contador: "+cola2.getNodos().get(i).getContador()+"\n");   
+            DatosCola2.append(" Carro "+cola2.getNodos().get(i).getId()+", contador: "+cola2.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -321,7 +320,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<cola3.getNodos().size(); i++)
         {
-         DatosCola3.append(" Carro "+cola3.getNodos().get(i).getId()+", contador: "+cola3.getNodos().get(i).getContador()+"\n");   
+            DatosCola3.append(" Carro "+cola3.getNodos().get(i).getId()+", contador: "+cola3.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -332,7 +331,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<colaReparacion.getNodos().size(); i++)
         {
-         DatosReparacion.append(" Carro "+colaReparacion.getNodos().get(i).getId()+", contador: "+colaReparacion.getNodos().get(i).getContador()+"\n");   
+            DatosReparacion.append(" Carro "+colaReparacion.getNodos().get(i).getId()+", contador: "+colaReparacion.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -344,6 +343,7 @@ public class Administrador extends SwingWorker{
         imprimirColaReparacion();
     }
  
+    
     //Getter's & Setter's:
     
     public Cola getCola1() {

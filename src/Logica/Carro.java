@@ -2,16 +2,19 @@ package Logica;
 
 public class Carro {
     
-    private int id;
-    private int prioridad;
-    private int contador;
+    private int id;         //ID unico del carro
+    private int prioridad;  //Prioridad del carro
+    private int contador;   //Contador asociado al carro
 
+    //Constructor:
     public Carro(int id, int prioridad, int contador) 
     {
         this.id = id;
         this.prioridad = prioridad;
         this.contador = contador;
     }
+    
+    //Getter's & Setter's:
     
     public int getId() 
     {
