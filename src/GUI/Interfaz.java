@@ -1,3 +1,7 @@
+/*
+// Realizado por César Salazar y Massimo Di Gennaro.
+*/
+
 package GUI;
 
 import Logica.*;
