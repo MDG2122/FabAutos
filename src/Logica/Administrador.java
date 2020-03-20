@@ -4,7 +4,8 @@ import static java.lang.Thread.sleep;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextArea;   //Para mostrar todos los detalles
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
 public class Administrador extends SwingWorker{
@@ -26,14 +27,23 @@ public class Administrador extends SwingWorker{
     public JTextArea DatosCola2;
     public JTextArea DatosCola3;
     public JTextArea DatosReparacion;
+    public JTextArea estado_carro;
+    
+    public JLabel id_carro;
+    public JLabel prioridad_carro;
+    
 
     //Constructor:
-    public Administrador(JTextArea DatosCola1, JTextArea DatosCola2, JTextArea DatosCola3, JTextArea DatosReparacion) 
+    public Administrador(JTextArea DatosCola1, JTextArea DatosCola2, JTextArea DatosCola3, JTextArea DatosReparacion,
+    JLabel idc, JLabel prioridad, JTextArea estado) 
     {
         this.DatosCola1=DatosCola1;
         this.DatosCola2=DatosCola2;
         this.DatosCola3=DatosCola3;
         this.DatosReparacion=DatosReparacion;
+        this.id_carro=idc;
+        this.prioridad_carro=prioridad;
+        this.estado_carro= estado;
     }
     
     
@@ -46,6 +56,9 @@ public class Administrador extends SwingWorker{
 
         //Incrementa ID de auto:
         id++;
+        
+        id_carro.setText("-");
+        prioridad_carro.setText("-");
 
         //Se encola el carro creado en una de las colas dependiendo de su prioridad 
         encolar();
@@ -56,7 +69,7 @@ public class Administrador extends SwingWorker{
         do
         {
             //Entra en operacion cuando hayan pasado dos ciclos de revision:
-            if(contador%2==1)
+            if(contador==2)
             {
                 //Probabilidad de 60% de crear nuevo carro:
                 if(random.nextFloat() <= 0.6)
@@ -70,6 +83,8 @@ public class Administrador extends SwingWorker{
                     
                     imprimirColas();
                 }
+                
+                contador=0;
             }  
             
             //Se selecciona el carro de una de las colas, se lleva a revision y posteriormente realiza las actualizaciones en las colas:
@@ -129,17 +144,19 @@ public class Administrador extends SwingWorker{
                     System.out.print("[Carro "+cola3.getNodos().get(i).getId()+", prioridad "+cola3.getNodos().get(i).getPrioridad()+", contador: "+cola3.getNodos().get(i).getContador()+"]; ");   
                 }
                 break; 
-        }        
+        }
+
+        
     }
 
     //Seleccionar el elemento a ser revisado (en base a su prioridad) y actualiza las colas:
     public void planificador()
-    {
+    {   
         //Si la cola es de prioridad 1, los autos en su interior pasan inmediatamente a revision:
         if(!cola1.getNodos().isEmpty())
         {   
             //El mecanico revisa el auto:
-            mec.revisar(cola1.getNodos().get(0), cola1, colaReparacion, DatosCola1);
+            mec.revisar(cola1.getNodos().get(0), cola1, colaReparacion, id_carro, prioridad_carro, estado_carro);
             
             imprimirColas();
             
@@ -153,7 +170,7 @@ public class Administrador extends SwingWorker{
         else if(cola1.getNodos().isEmpty() && !cola2.getNodos().isEmpty())
         {
             
-            mec.revisar(cola2.getNodos().get(0), cola2, colaReparacion, DatosCola2);
+            mec.revisar(cola2.getNodos().get(0), cola2, colaReparacion, id_carro, prioridad_carro, estado_carro);
             
             imprimirColas();
             
@@ -164,12 +181,15 @@ public class Administrador extends SwingWorker{
         else if(getCola1().getNodos().isEmpty() && getCola2().getNodos().isEmpty() && !getCola3().getNodos().isEmpty())
         {
 
-            mec.revisar(cola3.getNodos().get(0), cola3, colaReparacion, DatosCola3);
+            mec.revisar(cola3.getNodos().get(0), cola3, colaReparacion, id_carro, prioridad_carro, estado_carro);
             
             imprimirColas();
             
             aumentarContador(cola3);
         }
+        
+        id_carro.setText("-");
+        prioridad_carro.setText("-");
         
     }
     
@@ -299,7 +319,7 @@ public class Administrador extends SwingWorker{
                 
         for(int i=0; i<cola1.getNodos().size(); i++)
         {
-         DatosCola1.append("Carro "+cola1.getNodos().get(i).getId()+", contador: "+cola1.getNodos().get(i).getContador()+"\n");   
+         DatosCola1.append(" Carro "+cola1.getNodos().get(i).getId()+", contador: "+cola1.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -310,7 +330,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<cola2.getNodos().size(); i++)
         {
-         DatosCola2.append("Carro "+cola2.getNodos().get(i).getId()+", contador: "+cola2.getNodos().get(i).getContador()+"\n");   
+         DatosCola2.append(" Carro "+cola2.getNodos().get(i).getId()+", contador: "+cola2.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -321,7 +341,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<cola3.getNodos().size(); i++)
         {
-         DatosCola3.append("Carro "+cola3.getNodos().get(i).getId()+", contador: "+cola3.getNodos().get(i).getContador()+"\n");   
+         DatosCola3.append(" Carro "+cola3.getNodos().get(i).getId()+", contador: "+cola3.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
@@ -332,7 +352,7 @@ public class Administrador extends SwingWorker{
         
         for(int i=0; i<colaReparacion.getNodos().size(); i++)
         {
-         DatosReparacion.append("Carro "+colaReparacion.getNodos().get(i).getId()+", contador: "+colaReparacion.getNodos().get(i).getContador()+"\n");   
+         DatosReparacion.append(" Carro "+colaReparacion.getNodos().get(i).getId()+", contador: "+colaReparacion.getNodos().get(i).getContador()+"\n");   
         }  
     }
     
