@@ -53,6 +53,10 @@ public class Administrador extends SwingWorker{
         this.estado_carro= estado;
         this.carros= carros;
         
+        carros.setText("-");
+        id_carro.setText("-");
+        prioridad_carro.setText("-");
+        
     }
     
     
@@ -120,9 +124,6 @@ public class Administrador extends SwingWorker{
 
         //Incrementa ID de auto:
         id++;
-        
-        id_carro.setText("-");
-        prioridad_carro.setText("-");
 
         //Se encola el carro creado en una de las colas dependiendo de su prioridad 
         encolar();
@@ -248,18 +249,12 @@ public class Administrador extends SwingWorker{
             Carro aux = carro;
             //Selecciona el primer carro de la cola de reparaciones/mejoras
             carro = colaReparacion.getNodos().get(0);
-            //Elimina el carro de la cola
-            colaReparacion.eliminar(carro);
 
             //Si la probabilidad es del 60% sale de la cola general y vuelve a su cola original:
             if (random.nextFloat() <= 0.6) 
             {
                 encolar();
-            }
-            else
-            {
-                //Vuelve a insertar el carro en la cola de reparaciones hasta que vuelvan a ser actualizadas las colas:
-                colaReparacion.insertar(carro);
+                colaReparacion.eliminar(carro);
             }
 
             //Se restablece el valor original del carro actual:

@@ -198,7 +198,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(254, 254, 254));
         jLabel1.setText("Fabrica de Autos IBMW C.A");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(12, 12, 264, 36);
+        jLabel1.setBounds(12, 12, 300, 36);
 
         jScrollPane1.setBackground(new java.awt.Color(72, 72, 72));
         jScrollPane1.setBorder(null);
@@ -244,7 +244,7 @@ public class Interfaz extends javax.swing.JFrame {
         jSeparator1.setBackground(new java.awt.Color(254, 254, 254));
         jSeparator1.setForeground(new java.awt.Color(254, 254, 254));
         jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(600, 400, 220, 50);
+        jSeparator1.setBounds(590, 400, 230, 50);
 
         id.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
         id.setForeground(new java.awt.Color(254, 254, 254));
@@ -277,7 +277,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(254, 254, 254));
         jLabel6.setText("Carros en el mercado:");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(610, 370, 171, 24);
+        jLabel6.setBounds(591, 370, 190, 24);
 
         carros.setFont(new java.awt.Font("Roboto Condensed", 1, 18)); // NOI18N
         carros.setForeground(new java.awt.Color(254, 254, 254));
@@ -300,7 +300,7 @@ public class Interfaz extends javax.swing.JFrame {
         jSeparator2.setBackground(new java.awt.Color(254, 254, 254));
         jSeparator2.setForeground(new java.awt.Color(254, 254, 254));
         jPanel1.add(jSeparator2);
-        jSeparator2.setBounds(12, 57, 264, 3);
+        jSeparator2.setBounds(12, 50, 280, 10);
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 878, 461));
 
