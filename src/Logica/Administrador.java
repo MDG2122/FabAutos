@@ -68,8 +68,6 @@ public class Administrador extends SwingWorker{
                 actualizaReparaciones();
                
                 imprimirColas();
-                
-                aumentarContadorR(colaReparacion);
             }
             
             //Entra en operacion cuando hayan pasado dos ciclos de revision:
@@ -255,8 +253,6 @@ public class Administrador extends SwingWorker{
             //Si la probabilidad es del 60% sale de la cola general y vuelve a su cola original:
             if (random.nextFloat() <= 0.6) 
             {
-                //System.out.println("\nCarro "+carro.getId()+" ha salido de la cola de Reparaciones y mejoras.");
-
                 encolar();
             }
             else
@@ -287,7 +283,7 @@ public class Administrador extends SwingWorker{
             
             imprimirColas();
             
-            //Reinicializa el contador:
+            //Reinicializa el contador y actualiza la cola:
             if(cola.getNodos().get(i).getContador()==10 && (cola.getNodos().get(i).getPrioridad()==2 || cola.getNodos().get(i).getPrioridad()==3))
             {
                 cola.getNodos().get(i).setContador(0);
@@ -295,19 +291,7 @@ public class Administrador extends SwingWorker{
             }
         }
     }
-    
-    //Aumenta especificamente el contador de la cola de Reparaciones
-    public void aumentarContadorR(Cola cola)
-    {
-        for(int i=0; i<cola.getNodos().size(); i++)
-        {   
-            int j=cola.getNodos().get(i).getContador();
-            cola.getNodos().get(i).setContador(j+1);
-            
-            imprimirColas();
-        }
-    }
-    
+
     public void imprimirCola1()
     {
         DatosCola1.selectAll();

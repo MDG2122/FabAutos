@@ -39,9 +39,13 @@ public class Mecanico {
             //Sale al mercado (probabilidad de 30%):
             if (probabilidad <= 0.3) 
             {
+                //Borra todo el TextArea
                 estado.selectAll();
-                estado.replaceSelection("");  
+                estado.replaceSelection(""); 
+                //Muestra el estado actual
                 estado.append(" El carro "+carro.getId()+" ha salido al mercado.");
+                
+                //Aumenta y muestra por pantalla el total de autos fuera del sistema
                 contador++;
                 carros.setText(Integer.toString(contador));
             }
@@ -50,7 +54,7 @@ public class Mecanico {
             {
                 estado.selectAll();
                 estado.replaceSelection("");  
-                estado.append(" El carro "+carro.getId() +" necesita mas tiempo de revisión.");
+                estado.append(" El carro "+carro.getId() +" necesita más tiempo de revisión.");
                 
                 //Inserta al carro de ultimo en la cola:
                 cola.insertar(carro);
