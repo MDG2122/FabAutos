@@ -11,11 +11,12 @@ public class Mecanico {
     
     private int tiempoEspera = 5000;        //Tiempo que tarda en hacer la revision (5 segundos expresados en milisegundos).
     private Random random = new Random();   //Variable que define un random.
+    private int contador=0;                 //Contador de carros en el mercado.
     
     public Mecanico() { }
     
     //Hace una revision al carro:
-    public void revisar(Carro carro, Cola cola, Cola reparaciones, JLabel id, JLabel prioridad, JTextArea estado) {
+    public void revisar(Carro carro, Cola cola, Cola reparaciones, JLabel id, JLabel prioridad, JTextArea estado, JLabel carros) {
 
         id.setText(Integer.toString(carro.getId()));
         prioridad.setText(Integer.toString(carro.getPrioridad()));
@@ -23,14 +24,11 @@ public class Mecanico {
         //Variable que define una probabilidad
         float probabilidad = random.nextFloat();
         
-        //Saca al carro de la cola mientras se revisa
-        cola.eliminar(carro);
-        
         try
         {   
             estado.selectAll();
             estado.replaceSelection("");            
-            estado.append(" Carro "+carro.getId()+" en revision");
+            estado.append(" Carro "+carro.getId()+" en revisión.");
 
             //Realiza revision por 5 segundos:
             sleep(tiempoEspera);
@@ -44,7 +42,8 @@ public class Mecanico {
                 estado.selectAll();
                 estado.replaceSelection("");  
                 estado.append(" El carro "+carro.getId()+" ha salido al mercado.");
-                System.out.println("\nEl carro "+carro.getId()+" ha salido al mercado.");
+                contador++;
+                carros.setText(Integer.toString(contador));
             }
             //Se necesita mas tiempo de revision (probabilidad de 50%):
             else if (probabilidad > 0.3 && probabilidad <= 0.8) 
@@ -52,7 +51,7 @@ public class Mecanico {
                 estado.selectAll();
                 estado.replaceSelection("");  
                 estado.append(" El carro "+carro.getId() +" necesita mas tiempo de revisión.");
-                System.out.println("\nEl carro "+carro.getId() +" necesita mas tiempo de revisión.");
+                
                 //Inserta al carro de ultimo en la cola:
                 cola.insertar(carro);
             }
@@ -61,14 +60,13 @@ public class Mecanico {
             {
                 estado.selectAll();
                 estado.replaceSelection("");  
-                estado.append(" El carro "+carro.getId() +" tiene un defecto.\nSe lleva a la cola de Reparaciones.");
-                System.out.println("\nEl carro "+carro.getId()+" tiene un defecto o debe mejorarse.");
+                estado.append(" El carro "+carro.getId() +" tiene un defecto o debe mejorarse.\n Se lleva a la cola de Reparaciones.");
+
                 //Inserta el carro en una cola general sin prioridades:
                 reparaciones.insertar(carro);
-                System.out.println("\nEl carro "+carro.getId()+" fue insertado en la cola de Reparaciones.");
+
             }
-            
-            sleep(tiempoEspera/5);
+
         }
         catch(InterruptedException ex)
         {
