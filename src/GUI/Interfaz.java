@@ -117,7 +117,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(254, 254, 254));
         jLabel5.setText("Prioridad 3");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(619, 85, 66, 17);
+        jLabel5.setBounds(619, 85, 62, 16);
 
         jButton1.setBackground(new java.awt.Color(62, 62, 62));
         jButton1.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
@@ -130,25 +130,24 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(740, 20, 90, 31);
+        jButton1.setBounds(740, 20, 90, 25);
 
         jLabel9.setBackground(java.awt.Color.white);
         jLabel9.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(254, 254, 254));
         jLabel9.setText("Estado del Carro");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(26, 232, 97, 17);
+        jLabel9.setBounds(26, 232, 94, 16);
 
         jLabel2.setBackground(new java.awt.Color(204, 1, 1));
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(254, 254, 254));
         jLabel2.setText("ID Carro seleccionado");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(30, 100, 128, 17);
+        jLabel2.setBounds(30, 100, 125, 16);
 
         jScrollPane3.setBackground(new java.awt.Color(72, 72, 72));
         jScrollPane3.setBorder(null);
-        jScrollPane3.setViewportBorder(null);
         jScrollPane3.setEnabled(false);
         jScrollPane3.setFocusable(false);
         jScrollPane3.setOpaque(false);
@@ -173,19 +172,19 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(254, 254, 254));
         jLabel3.setText("Prioridad 1");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(340, 85, 66, 17);
+        jLabel3.setBounds(340, 85, 62, 16);
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(254, 254, 254));
         jLabel4.setText("Prioridad 2");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(478, 85, 66, 17);
+        jLabel4.setBounds(478, 85, 62, 16);
 
         jLabel7.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(254, 254, 254));
         jLabel7.setText("Reparaciones");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(750, 85, 80, 17);
+        jLabel7.setBounds(750, 85, 79, 16);
 
         prioridad.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
         prioridad.setForeground(new java.awt.Color(254, 254, 254));
@@ -198,7 +197,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(254, 254, 254));
         jLabel1.setText("Fabrica de Autos IBMW C.A");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(12, 12, 300, 36);
+        jLabel1.setBounds(12, 12, 340, 36);
 
         jScrollPane1.setBackground(new java.awt.Color(72, 72, 72));
         jScrollPane1.setBorder(null);
@@ -223,7 +222,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(254, 254, 254));
         jLabel8.setText("Nivel de Prioridad");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(30, 160, 109, 17);
+        jLabel8.setBounds(30, 160, 99, 16);
 
         jScrollPane2.setBackground(new java.awt.Color(72, 72, 72));
         jScrollPane2.setBorder(null);
@@ -244,7 +243,7 @@ public class Interfaz extends javax.swing.JFrame {
         jSeparator1.setBackground(new java.awt.Color(254, 254, 254));
         jSeparator1.setForeground(new java.awt.Color(254, 254, 254));
         jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(590, 400, 230, 50);
+        jSeparator1.setBounds(580, 400, 230, 50);
 
         id.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
         id.setForeground(new java.awt.Color(254, 254, 254));
@@ -277,7 +276,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(254, 254, 254));
         jLabel6.setText("Carros en el mercado:");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(591, 370, 190, 24);
+        jLabel6.setBounds(581, 370, 200, 24);
 
         carros.setFont(new java.awt.Font("Roboto Condensed", 1, 18)); // NOI18N
         carros.setForeground(new java.awt.Color(254, 254, 254));
