@@ -63,15 +63,7 @@ public class Administrador extends SwingWorker{
     //Realiza la ejecucion:
     public void ejecutar()
     {
-        //crearCarro();
-        carro = new Carro(id,1,0);
-        cola1.insertar(carro);
-        carro = new Carro(2,1,0);
-        cola1.insertar(carro);
-        carro = new Carro(3,2,9);
-        cola2.insertar(carro);
-        carro = new Carro(4,2,9);
-        cola2.insertar(carro);
+        crearCarro();
         
         do
         {   
