@@ -67,8 +67,11 @@ public class Administrador extends SwingWorker{
         
         do
         {   
-            //Se selecciona el carro de una de las colas, se lleva a revision y posteriormente realiza las actualizaciones en las colas:
+            //Se selecciona el carro de una de las colas, se lleva a revision y aumenta contadores:
             planificador();
+            
+            //Lleva a cabo la actualizacion de las colas:
+            actualizarColas();
             
             //Actualiza la cola de reparacion (si no esta vacia) cada vez que se actualizan las demas:
             if(!colaReparacion.getNodos().isEmpty())
@@ -152,16 +155,18 @@ public class Administrador extends SwingWorker{
                 cola1.eliminar(aux);
                 
                 imprimirColas();
-
+                
+                //Aumenta los contadores de cada carro que no fue seleccionado para revision en cada cola
+                aumentarContador(cola1);
+                aumentarContador(cola2);
+                aumentarContador(cola3);
+                
                 //El mecanico revisa el auto:
                 mec.revisar(aux, cola1, colaReparacion, id_carro, prioridad_carro, estado_carro, carros);
 
                 imprimirColas();
 
-                //Aumenta los contadores de cada carro que no fue seleccionado para revision en cada cola
-                aumentarContador(cola1);
-                aumentarContador(cola2);
-                aumentarContador(cola3);
+
 
             }
             //Si cola es de prioridad 2, pasa solo si no hay elementos en cola 1:
@@ -171,13 +176,14 @@ public class Administrador extends SwingWorker{
                 cola2.eliminar(aux);
                 
                 imprimirColas();
-
+                
+                aumentarContador(cola2);
+                aumentarContador(cola3);
+                
                 mec.revisar(aux, cola2, colaReparacion, id_carro, prioridad_carro, estado_carro, carros);
 
                 imprimirColas();
 
-                aumentarContador(cola2);
-                aumentarContador(cola3);
             }
             //Si cola es de prioridad 3, pasa solo si no hay elementos en cola 1 y 2:
             else if(getCola1().getNodos().isEmpty() && getCola2().getNodos().isEmpty() && !getCola3().getNodos().isEmpty())
@@ -186,12 +192,13 @@ public class Administrador extends SwingWorker{
                 cola3.eliminar(aux);
                 
                 imprimirColas();
+                
+                aumentarContador(cola3);
 
                 mec.revisar(aux, cola3, colaReparacion, id_carro, prioridad_carro, estado_carro, carros);
 
                 imprimirColas();
 
-                aumentarContador(cola3);
             }
 
             id_carro.setText("-");
@@ -204,11 +211,36 @@ public class Administrador extends SwingWorker{
         
     }
     
-    //Subir los niveles de prioridad y actualizar cola de reparaciones:
-    public void actualizarColas(int prioridad)
+    //Recorre las colas y las actualiza de acuerdo a la condicion:
+    public void actualizarColas()
     {
         System.out.println("\nACTUALIZANDO COLAS...");
 
+        //Recorre la cola:
+        for(int i=0; i<cola2.getNodos().size(); i++)
+        {   
+            //Reinicializa el contador y actualiza la cola:
+            if(cola2.getNodos().get(i).getContador()==10)
+            {
+                cola2.getNodos().get(i).setContador(0);
+                cambiaColas(cola2.getNodos().get(i).getPrioridad());
+            }
+        }
+        
+        for(int i=0; i<cola3.getNodos().size(); i++)
+        {   
+            if(cola3.getNodos().get(i).getContador()==10)
+            {
+                cola3.getNodos().get(i).setContador(0);
+                cambiaColas(cola3.getNodos().get(i).getPrioridad());
+            }
+        } 
+       
+    }
+    
+    //Cambia carros de cola:
+    public void cambiaColas(int prioridad)
+    {
         //Resta la prioridad
         prioridad--;
 
@@ -231,7 +263,7 @@ public class Administrador extends SwingWorker{
                 cola3.eliminar(cola3.getNodos().get(0));
             break;
         }
-        imprimirColas();        
+        imprimirColas();    
     }
     
     //Realiza las reparaciones/mejoras:
@@ -278,13 +310,6 @@ public class Administrador extends SwingWorker{
             cola.getNodos().get(i).setContador(j+1);
             
             imprimirColas();
-            
-            //Reinicializa el contador y actualiza la cola:
-            if(cola.getNodos().get(i).getContador()==10 && (cola.getNodos().get(i).getPrioridad()==2 || cola.getNodos().get(i).getPrioridad()==3))
-            {
-                cola.getNodos().get(i).setContador(0);
-                actualizarColas(cola.getNodos().get(i).getPrioridad());
-            }
         }
     }
 
