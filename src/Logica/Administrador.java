@@ -244,24 +244,21 @@ public class Administrador extends SwingWorker{
         //Resta la prioridad
         prioridad--;
 
-        //Actualiza las colas:
-        switch (prioridad) 
+        //Inserta el primer auto de cola de prioridad 2 en la de prioridad 1:
+        if(prioridad==1) 
         {
-            //Inserta el primer auto de cola de prioridad 2 en la de prioridad 1:
-            case 1:
-                //Cambia la prioridad
-                cola2.getNodos().get(0).setPrioridad(1);
-                //Cambia de cola
-                cola1.insertar(cola2.getNodos().get(0));
-                cola2.eliminar(cola2.getNodos().get(0));
-            break;
-
-            //Inserta el primer auto de cola de prioridad 3 en la de prioridad 2:
-            case 2:
-                cola3.getNodos().get(0).setPrioridad(2);
-                cola2.insertar(cola3.getNodos().get(0));
-                cola3.eliminar(cola3.getNodos().get(0));
-            break;
+            //Cambia la prioridad
+            cola2.getNodos().get(0).setPrioridad(1);
+            //Cambia de cola
+            cola1.insertar(cola2.getNodos().get(0));
+            cola2.eliminar(cola2.getNodos().get(0));
+        }
+        //Inserta el primer auto de cola de prioridad 3 en la de prioridad 2:
+        else
+        {
+            cola3.getNodos().get(0).setPrioridad(2);
+            cola2.insertar(cola3.getNodos().get(0));
+            cola3.eliminar(cola3.getNodos().get(0));            
         }
         imprimirColas();    
     }
@@ -366,8 +363,7 @@ public class Administrador extends SwingWorker{
         imprimirCola3();
         imprimirColaReparacion();
     }
- 
-    
+
     //Getter's & Setter's:
     
     public Cola getCola1() {
