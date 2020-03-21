@@ -63,7 +63,15 @@ public class Administrador extends SwingWorker{
     //Realiza la ejecucion:
     public void ejecutar()
     {
-        crearCarro();
+        //crearCarro();
+        carro = new Carro(id,1,0);
+        cola1.insertar(carro);
+        carro = new Carro(2,1,0);
+        cola1.insertar(carro);
+        carro = new Carro(3,2,9);
+        cola2.insertar(carro);
+        carro = new Carro(4,2,9);
+        cola2.insertar(carro);
         
         do
         {   
@@ -224,6 +232,9 @@ public class Administrador extends SwingWorker{
             {
                 cola2.getNodos().get(i).setContador(0);
                 cambiaColas(cola2.getNodos().get(i).getPrioridad());
+                
+                //Vuelve al indice anterior (esto para comprobar que haya otro carro con un contador igual a 10)
+                i--;
             }
         }
         
@@ -233,6 +244,7 @@ public class Administrador extends SwingWorker{
             {
                 cola3.getNodos().get(i).setContador(0);
                 cambiaColas(cola3.getNodos().get(i).getPrioridad());
+                i--;
             }
         } 
        
@@ -260,6 +272,7 @@ public class Administrador extends SwingWorker{
             cola2.insertar(cola3.getNodos().get(0));
             cola3.eliminar(cola3.getNodos().get(0));            
         }
+        
         imprimirColas();    
     }
     
@@ -276,6 +289,7 @@ public class Administrador extends SwingWorker{
             
             //Guarda en una variable auxiliar el valor del carro actual
             Carro aux = carro;
+            
             //Selecciona el primer carro de la cola de reparaciones/mejoras
             carro = colaReparacion.getNodos().get(0);
 
