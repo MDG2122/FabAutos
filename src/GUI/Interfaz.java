@@ -109,7 +109,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane4.setViewportView(DatosReparacion);
 
         jPanel1.add(jScrollPane4);
-        jScrollPane4.setBounds(729, 108, 121, 213);
+        jScrollPane4.setBounds(730, 110, 130, 210);
         jPanel1.add(jDesktopPane1);
         jDesktopPane1.setBounds(716, 221, 0, 0);
 
@@ -166,7 +166,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane3.setViewportView(DatosCola3);
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(591, 108, 119, 213);
+        jScrollPane3.setBounds(591, 108, 130, 213);
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(254, 254, 254));
@@ -215,7 +215,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane1.setViewportView(DatosCola1);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(311, 108, 122, 213);
+        jScrollPane1.setBounds(311, 108, 130, 213);
 
         jLabel8.setBackground(java.awt.Color.white);
         jLabel8.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
@@ -238,7 +238,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane2.setViewportView(DatosCola2);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(451, 108, 122, 213);
+        jScrollPane2.setBounds(451, 108, 130, 213);
 
         jSeparator1.setBackground(new java.awt.Color(254, 254, 254));
         jSeparator1.setForeground(new java.awt.Color(254, 254, 254));
